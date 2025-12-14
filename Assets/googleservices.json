@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "514128546398",
-    "project_id": "bigdata-8ff87",
-    "storage_bucket": "bigdata-8ff87.firebasestorage.app"
+    "project_number": "",
+    "project_id": "",
+    "storage_bucket": ""
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:514128546398:android:65522fd36421d38150c2cf",
+        "mobilesdk_app_id": "",
         "android_client_info": {
-          "package_name": "com.companyname.big17datafirebase"
+          "package_name": ""
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDiFspHc78NpAIqtecki7GFEWvVFXZmKOg"
+          "current_key": ""
         }
       ],
       "services": {
