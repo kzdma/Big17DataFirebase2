@@ -26,15 +26,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:514128546398:android:c3aed472b172751750c2cf",
+        "mobilesdk_app_id": ",
         "android_client_info": {
-          "package_name": "com.companyname.big17datafirebase2"
+          "package_name": ""
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDiFspHc78NpAIqtecki7GFEWvVFXZmKOg"
+          "current_key": ""
         }
       ],
       "services": {
