@@ -1,16 +1,19 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.Res;
-using Android.Gms.Tasks;
 using Android.Gms.Extensions;
+using Android.Gms.Tasks;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Big17DataFirebase2.Model;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Firestore;
+using Java.Lang;
+using Java.Util;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -98,7 +101,7 @@ namespace Big17DataFirebase2.Service
 			{
 				Android.Util.Log.Error(TAG, $"File not found: {ex.Message}");
 			}
-			catch (Exception ex)
+			catch (System.Exception ex)
 			{
 				Android.Util.Log.Error(TAG, $"Error parsing JSON: {ex.Message}");
 			}
@@ -117,18 +120,71 @@ namespace Big17DataFirebase2.Service
 			}
 			catch (FirebaseAuthException ex)
 			{
-				Log.Error(TAG, $"MyApp: User Auth SignIn failed: {ex.Message}");
+				Log.Error(TAG, $"SignInUserAsync: User Auth SignIn failed: {ex.Message}");
 				return null; // Indicate failure
 			}
-			catch (Exception ex)
+			catch (System.Exception ex)
 			{
-				Log.Error(TAG, $"MyApp: User Auth SignIn failed, general error: {ex.Message}");
+				Log.Error(TAG, $"SignInUserAsync: User Auth SignIn failed, general error: {ex.Message}");
 				return null; // Indicate failure
 			}
 		}
-		#endregion
+		public static async Task<string> RegisterUserForAuth(User user)
+		{
+            try
+            {
+                FirebaseAuth mAuth = FirebaseAuth.Instance;
+				//using Android.Gms.Extensions;
+				await mAuth.CreateUserWithEmailAndPassword(user.UserEmail, user.UserPass);
+                Log.Debug(TAG, $"RegisterUserForAuth: User Auth {user.UserEmail} SignIn success");
+                return mAuth.CurrentUser.Uid; // Indicate success
+            }
+            catch (FirebaseAuthException ex)
+            {
+                Log.Error(TAG, $"SignInUserAsync: User Auth SignIn failed: {ex.Message}");
+                return null; // Indicate failure
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error(TAG, $"SignInUserAsync: User Auth SignIn failed, general error: {ex.Message}");
+                return null; // Indicate failure
+            }           
+        }
+        public static async Task<bool> InsertAsync(User user)
+        {
+            try
+            {
+                //Insert user to FireStore database
+                HashMap userMap = new HashMap(); //using Java.Util;
+                userMap.Put("FirstName", user.FirstName);
+                //userMap.Put("IsAdmin", user.IsAdmin);
+                userMap.Put("LastName", user.LastName);
+                userMap.Put("UserEmail", user.UserEmail);
+                userMap.Put("UserMobile", user.UserMobile);
+                userMap.Put("UserPassword", user.UserPass);
 
-		public class TaskCompletionListeners : Java.Lang.Object, IOnSuccessListener, IOnFailureListener //using Android.Gms.Tasks;
+
+                DocumentReference userReference = FirebaseFirestore.Instance
+                                                                        .Collection("users")
+                                                                        .Document(user.Id);
+                await userReference.Set(userMap);
+                Log.Debug(TAG, $"InsertAsync: Insert User to Firestore complited");
+                return true; // Indicate success
+            }
+            catch (FirebaseFirestoreException ex)
+            {
+                Log.Error(TAG, $"InsertAsync: Insert User to Firestore failed: {ex.Message}");
+                return false; // Indicate failure
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error(TAG, $"MyApp: Insert User to Firestore failed: {ex.Message}");
+                return false; // Indicate failure
+            }
+        }
+        #endregion
+
+        public class TaskCompletionListeners : Java.Lang.Object, IOnSuccessListener, IOnFailureListener //using Android.Gms.Tasks;
 		{
 			public event EventHandler<TaskSuccessEventArgs> Success;
 			public event EventHandler<TaskCompletionFailureEventArgs> Failure;

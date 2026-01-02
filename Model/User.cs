@@ -19,6 +19,6 @@ namespace Big17DataFirebase2.Model
 		public string UserEmail { get; set; }
 		public string UserPass { get; set; }
 		public string UserMobile { get; set; }
-		public bool IsAdmin { get; set; }
+		public bool IsAdmin { get; set; } = false;
 	}
 }

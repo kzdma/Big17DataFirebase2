@@ -23,7 +23,7 @@ namespace Big17DataFirebase2
 		private TextView btnSighUp;
 		private Dialog mProgressDialog;
 
-		readonly string TAG = "KOSTYAPP";
+		
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -31,7 +31,7 @@ namespace Big17DataFirebase2
 			SetContentView(Resource.Layout.signin_layout);
 
 			InitilizeViews();
-			Log.Debug(TAG, $"SignInActivity: OnCreate()");
+			Log.Debug(ProManager.TAG, $"SignInActivity: OnCreate()");
 		}
 
 		private void InitilizeViews()
@@ -46,7 +46,7 @@ namespace Big17DataFirebase2
 			//Debug Mode
 			if (ProManager.DebugMode)
 			{
-				etEmail.Text = "zabelinsky.k@gmail.com";
+				etEmail.Text = "kostya@mail.com";
 				etPass.Text = "123456";
 				ShowProgressBar(true);
 				SignInWithEmailAndPassword();
@@ -57,7 +57,7 @@ namespace Big17DataFirebase2
 			string userAuthID = await FireBaseHelper.SignInUserAsync(etEmail.Text, etPass.Text);
 			if (userAuthID != null) //Success
 			{
-				Log.Debug(TAG, $"Firebase Auth SignIn success: {etEmail.Text} {etPass.Text}");
+				Log.Debug(ProManager.TAG, $"Firebase Auth SignIn success: {etEmail.Text} {etPass.Text}");
 				Toast.MakeText(this, "SignIn Success", ToastLength.Short).Show();
 				//GetCurrentUserFromDB(userAuthID);
 				ShowProgressBar(false);
@@ -65,7 +65,7 @@ namespace Big17DataFirebase2
 			else
 			{
 				ShowProgressBar(false);
-				Log.Debug(TAG, $"Firebase Auth SignIn Failed: {etEmail.Text} {etPass.Text}");
+				Log.Debug(ProManager.TAG, $"Firebase Auth SignIn Failed: {etEmail.Text} {etPass.Text}");
 				Toast.MakeText(this, "SignIn Process failed", ToastLength.Short).Show();
 			}
 		}
